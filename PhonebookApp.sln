@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhonebookApp", "PhonebookApp\PhonebookApp.csproj", "{EE495631-D603-4C85-8F6F-CEF613F9FD25}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{23E034B1-DFDB-4BBA-9799-E1FEDC5335AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE495631-D603-4C85-8F6F-CEF613F9FD25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE495631-D603-4C85-8F6F-CEF613F9FD25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE495631-D603-4C85-8F6F-CEF613F9FD25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE495631-D603-4C85-8F6F-CEF613F9FD25}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE495631-D603-4C85-8F6F-CEF613F9FD25} = {23E034B1-DFDB-4BBA-9799-E1FEDC5335AB}
+	EndGlobalSection
+EndGlobal
