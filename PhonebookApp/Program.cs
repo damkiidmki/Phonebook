@@ -6,17 +6,25 @@ namespace PhonebookApp;
 
 public class Program
 {
+    /// <summary>
+    /// Точка входа.
+    /// </summary>
+    /// <param name="args">Не используются в приложении.</param>
     public static void Main(string[] args)
     {
         CreateHostBuilder(args).Build().Run();
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
+    /// <summary>
+    /// Запуск фоновой задачи
+    /// </summary>
+    /// <param name="args">Не используются в приложении.</param>
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
-                services.AddSingleton<IPhonebookService, PhonebookService>();
-                services.AddSingleton<Phonebook>();
-                services.AddHostedService<Phonebook>();
+                services.AddSingleton<IPhonebookManager, PhonebookManager>();
+                services.AddSingleton(typeof(Phonebook));
+                services.AddHostedService<HostedService>();
             });
 }

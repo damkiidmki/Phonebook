@@ -1,25 +1,21 @@
-﻿using Microsoft.Extensions.Hosting;
-using PhonebookApp.Models;
+﻿using PhonebookApp.Models;
 using PhonebookApp.Services;
 
 namespace PhonebookApp;
 
-//todo обработаны не все ошибки
-public class Phonebook : IHostedService
+/// <summary>
+/// Phonebook - класс для взаимодействия с пользователем через консоль.
+/// </summary>
+public class Phonebook
 {
-    private readonly IPhonebookService _phonebookService;
-    private readonly IHostApplicationLifetime _applicationLifetime;
-
-    public Phonebook(IPhonebookService phonebookService,
-        IHostApplicationLifetime applicationLifetime)
-    {
-        _phonebookService = phonebookService;
-        _applicationLifetime = applicationLifetime;
-    }
+    private readonly IPhonebookManager _phonebookManager;
     
-    public Task StartAsync(CancellationToken cancellationToken)
+    /// <summary>
+    /// Метод для работы с пользователем через консоль.
+    /// </summary>
+    public void ConsoleUI()
     {
-        PrintAbonents(_phonebookService.GetAbonents());
+        PrintContacts(_phonebookManager.GetContacts());
         var q = true;
         while (q)
         {
@@ -31,24 +27,25 @@ public class Phonebook : IHostedService
                 switch (selectedCase)
                 {
                     case 1:
-                        _phonebookService.AddPhoneNumber(SetAbonent());
+                        _phonebookManager.AddContact(SetContact());
                         Console.WriteLine("Абонент добавлен");
                         break;
                     case 2:
-                        _phonebookService.DeleteAbonent(SetAbonent());
+                        _phonebookManager.DeleteContact(SetContact());
                         Console.WriteLine("Абонент удален");
                         break;
                     case 3:
                         Console.WriteLine("Укажите номер телефона");
-                        Console.WriteLine(_phonebookService.GetAbonentByPhone(Console.ReadLine()).ToString());
+                        Console.WriteLine(_phonebookManager.GetContactByPhone(Console.ReadLine()).ToString());
                         break;
                     case 4:
                         Console.WriteLine("Укажите имя");
-                        var abobnents = _phonebookService.GetAbonentByName(Console.ReadLine());
-                        foreach (var abonent in abobnents)
+                        var contacts = _phonebookManager.GetContactByName(Console.ReadLine());
+                        foreach (var contact in contacts)
                         {
-                            Console.WriteLine(abonent.ToString());
+                            Console.WriteLine(contact.ToString());
                         }
+
                         break;
                     case 5:
                         q = false;
@@ -60,28 +57,29 @@ public class Phonebook : IHostedService
                 Console.WriteLine(e.Message);
             }
         }
-        _applicationLifetime.StopApplication();
-        return Task.CompletedTask;
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
-    }
-    
-    private Abonent SetAbonent()
+    /// <summary>
+    /// Получить с консоли данные об абоненте.
+    /// </summary>
+    /// <returns>Абонент.</returns>
+    private Contact SetContact()
     {
         Console.WriteLine("Укажите имя и номер в формете:{имя} {номер}");
         var input = Console.ReadLine().Split(' ');
-        return new Abonent(input[0], input[1]);
+        return new Contact(input[0], input[1]);
     }
 
-    private void PrintAbonents(IList<Abonent> abonents)
+    /// <summary>
+    /// Выгрузить в консоль всех абонентов.
+    /// </summary>
+    /// <param name="contacts"></param>
+    private void PrintContacts(IList<Contact>? contacts)
     { 
-        if (abonents != null)
-            foreach (var abonent in abonents)
+        if (contacts != null)
+            foreach (var contact in contacts)
             {
-                Console.WriteLine(abonent);
+                Console.WriteLine(contact);
             }
         else
         {
@@ -89,6 +87,9 @@ public class Phonebook : IHostedService
         }
     }
 
+    /// <summary>
+    /// Информация для пользователя.
+    /// </summary>
     private void Info()
     {
         Console.WriteLine("Phonebook");
@@ -97,5 +98,14 @@ public class Phonebook : IHostedService
         Console.WriteLine("3 - Получить абонента по номеру телефона");
         Console.WriteLine("4 - Получить абонента по имени");
         Console.WriteLine("5 - Выход");
+    }
+
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="phonebookManager"></param>
+    public Phonebook(IPhonebookManager phonebookManager)
+    {
+        _phonebookManager = phonebookManager;
     }
 }
