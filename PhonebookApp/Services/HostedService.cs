@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 
-namespace PhonebookApp;
+namespace PhonebookApp.Services;
 
 /// <summary>
 /// Размещенная служба 
